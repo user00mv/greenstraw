@@ -356,24 +356,19 @@ textarea.gs-input { resize: vertical; min-height: 100px; }
   position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden;
   cursor: col-resize; user-select: none; -webkit-user-select: none;
 }
-.ba-slider img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-.ba-after { z-index: 1; }
-.ba-before-wrap {
-  position: absolute; top: 0; left: 0; width: 50%; height: 100%;
-  overflow: hidden; z-index: 2;
+.ba-slider img {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: cover; pointer-events: none;
 }
-.ba-before-wrap img { position: absolute; top: 0; left: 0; width: 200%; max-width: none; height: 100%; object-fit: cover; }
+.ba-after { z-index: 1; }
+.ba-before {
+  z-index: 2;
+  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+}
 .ba-handle {
   position: absolute; top: 0; bottom: 0; width: 4px; left: 50%;
   transform: translateX(-50%); z-index: 3;
   background: #fff; box-shadow: 0 0 12px rgba(0,0,0,0.3);
-}
-.ba-handle::before {
-  content: ''; position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 44px; height: 44px; border-radius: 50%;
-  background: #fff; box-shadow: 0 2px 16px rgba(0,0,0,0.2);
-  display: flex; align-items: center; justify-content: center;
 }
 .ba-handle-icon {
   position: absolute; top: 50%; left: 50%;
@@ -605,8 +600,8 @@ footer { background: #0F1F14; padding: 64px 0 32px; }
     <div class="wrap about-grid">
       <div class="reveal-l">
         <div class="about-img-wrap">
-          <div class="about-img img-zoom"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80" alt="Tým"></div>
-          <div class="about-float anim-float"><img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80" alt=""></div>
+          <div class="about-img img-zoom"><img src="images/about1.png" alt="Realizace zahrad"></div>
+          <div class="about-float anim-float"><img src="images/logo.png" alt="GreenStraw" style="object-fit:contain;background:#111;padding:12px"></div>
           <div class="about-badge"><div class="about-badge-num">15+</div><div class="about-badge-label">Let praxe</div></div>
         </div>
       </div>
@@ -802,17 +797,17 @@ footer { background: #0F1F14; padding: 64px 0 32px; }
 /* ═══════════════ DATA ═══════════════ */
 const SERVICES = [
   { id:"zahrady", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>', title:"Návrhy & realizace zahrad", desc:"Navrhneme a vybudujeme zahradu vašich snů — od prvního náčrtu až po finální realizaci.", features:["3D vizualizace","Výsadba zeleně","Terénní úpravy","Osvětlení","Závlahy"], img:"https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=600&q=80" },
-  { id:"zemni", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22v-5l5-5 5 5-5 5z"/><path d="M9.5 14.5 16 8"/><path d="m17 2 5 5-.5.5a3.53 3.53 0 0 1-5 0s0 0 0 0a3.53 3.53 0 0 1 0-5L17 2z"/></svg>', title:"Zemní práce", desc:"Profesionální zemní práce s moderní technikou. Příprava terénu, výkopy, modelace krajiny.", features:["Výkopové práce","Modelace terénu","Odvoz zeminy","Příprava pozemku","Drenáže"], img:"https://images.unsplash.com/photo-1564429238961-bf8b8d446543?w=600&q=80" },
+  { id:"zemni", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22v-5l5-5 5 5-5 5z"/><path d="M9.5 14.5 16 8"/><path d="m17 2 5 5-.5.5a3.53 3.53 0 0 1-5 0s0 0 0 0a3.53 3.53 0 0 1 0-5L17 2z"/></svg>', title:"Zemní práce", desc:"Profesionální zemní práce s moderní technikou. Příprava terénu, výkopy, modelace krajiny.", features:["Výkopové práce","Modelace terénu","Odvoz zeminy","Příprava pozemku","Drenáže"], img:"images/svc-zemni.png" },
   { id:"firmy", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>', title:"Pro firmy", desc:"Reprezentativní zeleň pro firemní prostory. Kompletní návrhy, realizace a celoroční údržba.", features:["Firemní zahrady","Údržba zeleně","Sezónní výsadba","Pravidelný servis"], img:"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80" },
   { id:"mesta", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>', title:"Pro města & obce", desc:"Spolupracujeme s městy na tvorbě veřejné zeleně, parků a odpočinkových zón.", features:["Veřejné parky","Městská zeleň","Revitalizace","Generely zeleně"], img:"https://images.unsplash.com/photo-1577495508048-b635879837f1?w=600&q=80" },
   { id:"verejne", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 10v.2A3 3 0 0 1 8.9 16v0H5v0h0a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M16 14v.2A3 3 0 0 1 14.9 20v0H19v0h0a3 3 0 0 1-1-5.8V14a3 3 0 0 1 6 0z"/><path d="M19 20v3"/></svg>', title:"Veřejné služby", desc:"Celoroční údržba veřejných prostranství — sekání, prořezy, zimní údržba a kompletní péče.", features:["Údržba parků","Ořezy stromů","Zimní údržba","Poradenství"], img:"https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?w=600&q=80" },
 ];
 
 const SEASONS = [
-  { key:"jaro", label:"Jaro", sub:"Únor – Květen", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>', color:"#3BB143", tasks:["Hrabání listí a úklid po zimě","Řez ovocných a okrasných stromů","Vertikutace a hnojení trávníku","Spuštění závlahového systému","Příprava půdy a výsadba"] },
-  { key:"leto", label:"Léto", sub:"Červen – Srpen", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/></svg>', color:"#F4A261", tasks:["Pravidelné sečení trávníku","Aerifikace a pískování","Mulčování záhonů","Hnojení a zavlažování","Péče o květinové záhony"] },
-  { key:"podzim", label:"Podzim", sub:"Září – Listopad", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L2 21 3.56 18.39C3.56 18.39 5.19 16.18 6.45 14.78C7.71 13.38 10 11 12 10L17 8Z"/><path d="M17 8L20 2L22 4.5L17 8Z"/></svg>', color:"#E76F51", tasks:["Výsadba stromů a keřů","Výchovný řez dřevin","Úklid spadaného listí","Podzimní hnojení trávníku","Zazimování závlah"] },
-  { key:"zima", label:"Zima", sub:"Prosinec – Leden", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="20" y1="16" x2="4" y2="8"/><line x1="20" y1="8" x2="4" y2="16"/></svg>', color:"#90BCE0", tasks:["Rizikové kácení stromů","Kontrola ochrany rostlin","Údržba zahradní techniky","Plánování další sezóny","Konzultace nových projektů"] },
+  { key:"jaro", label:"Jaro", adj:"Jarní", sub:"Únor – Květen", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>', color:"#3BB143", tasks:["Hrabání listí a úklid po zimě","Řez ovocných a okrasných stromů","Vertikutace a hnojení trávníku","Spuštění závlahového systému","Příprava půdy a výsadba"] },
+  { key:"leto", label:"Léto", adj:"Letní", sub:"Červen – Srpen", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/></svg>', color:"#F4A261", tasks:["Pravidelné sečení trávníku","Aerifikace a pískování","Mulčování záhonů","Hnojení a zavlažování","Péče o květinové záhony"] },
+  { key:"podzim", label:"Podzim", adj:"Podzimní", sub:"Září – Listopad", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L2 21 3.56 18.39C3.56 18.39 5.19 16.18 6.45 14.78C7.71 13.38 10 11 12 10L17 8Z"/><path d="M17 8L20 2L22 4.5L17 8Z"/></svg>', color:"#E76F51", tasks:["Výsadba stromů a keřů","Výchovný řez dřevin","Úklid spadaného listí","Podzimní hnojení trávníku","Zazimování závlah"] },
+  { key:"zima", label:"Zima", adj:"Zimní", sub:"Prosinec – Leden", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="20" y1="16" x2="4" y2="8"/><line x1="20" y1="8" x2="4" y2="16"/></svg>', color:"#90BCE0", tasks:["Rizikové kácení stromů","Kontrola ochrany rostlin","Údržba zahradní techniky","Plánování další sezóny","Konzultace nových projektů"] },
 ];
 
 const GALLERY = [
@@ -952,7 +947,7 @@ function renderSeasons() {
           <span style="color:${s.color}">${s.icon}</span>
           <span style="font-size:13px;font-weight:700;color:${s.color}">${s.sub}</span>
         </div>
-        <h3 style="font-size:32px;font-weight:900;color:var(--dark);margin-bottom:8px">${s.label}ní údržba</h3>
+        <h3 style="font-size:32px;font-weight:900;color:var(--dark);margin-bottom:8px">${s.adj} údržba</h3>
         <p style="font-size:14px;font-weight:400;color:var(--text-light);line-height:1.7">Správné načasování je klíčem k&nbsp;dlouhodobě krásné a zdravé zahradě.</p>
       </div>
       <div>
@@ -1044,9 +1039,9 @@ function renderGallery() {
   document.getElementById('ba-grid').innerHTML = GALLERY.map((g, i) => `
     <div class="reveal-s d${Math.min(i+1,5)}">
       <div class="ba-card lift">
-        <div class="ba-slider" id="ba-${g.id}" data-id="${g.id}">
+        <div class="ba-slider" data-id="${g.id}">
           <img class="ba-after" src="${g.after}" alt="Po">
-          <div class="ba-before-wrap"><img src="${g.before}" alt="Před"></div>
+          <img class="ba-before" src="${g.before}" alt="Před">
           <div class="ba-handle"></div>
           <div class="ba-handle-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 8 4 4-4 4"/><path d="m6 8-4 4 4 4"/></svg></div>
           <div class="ba-label ba-label-before">Před</div>
@@ -1066,7 +1061,7 @@ function renderGallery() {
 function initSliders() {
   document.querySelectorAll('.ba-slider').forEach(slider => {
     let dragging = false;
-    const wrap = slider.querySelector('.ba-before-wrap');
+    const before = slider.querySelector('.ba-before');
     const handle = slider.querySelector('.ba-handle');
     const icon = slider.querySelector('.ba-handle-icon');
 
@@ -1074,9 +1069,10 @@ function initSliders() {
       const rect = slider.getBoundingClientRect();
       let pct = ((x - rect.left) / rect.width) * 100;
       pct = Math.max(2, Math.min(98, pct));
-      wrap.style.width = pct + '%';
+      before.style.clipPath = `polygon(0 0, ${pct}% 0, ${pct}% 100%, 0 100%)`;
       handle.style.left = pct + '%';
       icon.style.left = pct + '%';
+      icon.style.top = '50%';
       slider.classList.add('dragged');
     }
 
