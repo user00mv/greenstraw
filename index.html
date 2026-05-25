@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenStraw — Specialisté na tvorbu zahrad</title>
+<meta name="description" content="GreenStraw - profesionální zahradnické služby, realizace zahrad, zemní práce a péče o veřejnou zeleň.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --green: #3BB143;
+  --green-dark: #2E8B35;
+  --green-deep: #1A5025;
+  --green-light: #E8F5E9;
+  --green-muted: rgba(59,177,67,0.08);
+  --gray: #6B6B6B;
+  --dark: #1A1F1A;
+  --text: #3A4A3C;
+  --text-light: #6B7F6E;
+  --bg: #FAFCFA;
+  --white: #FFFFFF;
+  --border: #E4ECE5;
+  --radius: 20px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--white);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══ SCROLL PROGRESS ═══ */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 10001;
+  background: linear-gradient(90deg, var(--green), #7ddf64);
+  transition: width 0.12s; width: 0%;
+}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes fadeRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes fadeScale { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes float2 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(59,177,67,0.5); } 50% { box-shadow: 0 0 0 12px rgba(59,177,67,0); } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.vis { opacity: 1; transform: translateY(0); }
+.reveal-l { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal-l.vis { opacity: 1; transform: translateX(0); }
+.reveal-r { opacity: 0; transform: translateX(50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal-r.vis { opacity: 1; transform: translateX(0); }
+.reveal-s { opacity: 0; transform: scale(0.92); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal-s.vis { opacity: 1; transform: scale(1); }
+
+.d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; } .d5 { transition-delay: 0.5s; }
+
+.anim-float { animation: float 5s ease-in-out infinite; }
+.anim-float2 { animation: float2 5s ease-in-out 1.5s infinite; }
+.anim-pulse { animation: pulse 2s ease-in-out infinite; }
+.anim-spin { animation: spin 25s linear infinite; }
+
+/* ═══ UTILITY ═══ */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 36px; }
+.lift { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1); }
+.lift:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(26,80,37,0.10); }
+.img-zoom { overflow: hidden; }
+.img-zoom img { transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); display: block; }
+.img-zoom:hover img { transform: scale(1.06); }
+
+/* ═══ SVG ICONS ═══ */
+.icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.icon svg { width: 1em; height: 1em; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ═══ BUTTONS ═══ */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: 100px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); border: none;
+  text-decoration: none;
+}
+.btn-primary { background: var(--green); color: #fff; box-shadow: 0 4px 20px rgba(59,177,67,0.3); }
+.btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59,177,67,0.35); }
+.btn-outline { background: transparent; color: var(--green); border: 2px solid var(--green); }
+.btn-outline:hover { background: var(--green); color: #fff; }
+.btn-white { background: #fff; color: var(--green-deep); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+.btn-ghost { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(8px); }
+.btn-ghost:hover { background: rgba(255,255,255,0.2); }
+
+/* ═══ INPUTS ═══ */
+.gs-input {
+  width: 100%; padding: 14px 18px;
+  border: 2px solid #E0E8E1; border-radius: 14px;
+  font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 400;
+  color: var(--dark); outline: none; background: var(--bg);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.gs-input:focus { border-color: var(--green); box-shadow: 0 0 0 4px rgba(59,177,67,0.1); }
+textarea.gs-input { resize: vertical; min-height: 100px; }
+
+/* ═══ NAV ═══ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+  padding: 22px 0;
+}
+#nav.scrolled {
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(59,177,67,0.06);
+  padding: 12px 0;
+}
+#nav .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+#nav .logo { cursor: pointer; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+#nav .logo-text { font-size: 26px; font-weight: 900; letter-spacing: -0.03em; transition: color 0.4s; }
+#nav .logo-green { color: var(--green); }
+#nav .logo-gray { color: rgba(255,255,255,0.7); transition: color 0.4s; }
+#nav.scrolled .logo-gray { color: var(--gray); }
+
+#nav .nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-link {
+  background: none; border: none; padding: 8px 16px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600;
+  color: rgba(255,255,255,0.7); cursor: pointer; transition: color 0.3s;
+  position: relative; text-decoration: none;
+}
+.nav-link::after {
+  content: ''; position: absolute; bottom: -4px; left: 50%; width: 0; height: 2.5px;
+  border-radius: 2px; background: var(--green);
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1); transform: translateX(-50%);
+}
+.nav-link:hover::after, .nav-link.active::after { width: 60%; }
+.nav-link.active { color: #fff; }
+#nav.scrolled .nav-link { color: var(--text-light); }
+#nav.scrolled .nav-link.active { color: var(--green); }
+#nav .nav-cta { margin-left: 12px; padding: 10px 24px; font-size: 13px; }
+
+/* ═══ PAGES (hide/show) ═══ */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ═══ HERO ═══ */
+.hero {
+  min-height: 100vh; position: relative; overflow: hidden;
+  display: flex; align-items: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('images/hero.jpg');
+  background-size: cover; background-position: center; filter: brightness(0.3);
+}
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(160deg, rgba(26,80,37,0.8), rgba(26,80,37,0.5)); }
+.hero-circle {
+  position: absolute; border-radius: 50%; border: 1px solid rgba(255,255,255,0.06);
+}
+.hero-content { position: relative; z-index: 1; max-width: 680px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.08); border-radius: 100px;
+  padding: 7px 20px 7px 14px; margin-bottom: 28px;
+  border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+}
+.hero-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; }
+.hero-badge span { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9); }
+.hero h1 { font-size: clamp(42px, 6.5vw, 76px); font-weight: 900; color: #fff; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 22px; }
+.hero h1 span { color: rgba(255,255,255,0.35); font-weight: 300; }
+.hero p { font-size: 17px; font-weight: 400; line-height: 1.85; color: rgba(255,255,255,0.6); max-width: 500px; margin-bottom: 40px; }
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-scroll {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.hero-scroll span { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.3); letter-spacing: 0.2em; text-transform: uppercase; }
+
+/* ═══ STATS ═══ */
+.stats { background: #fff; border-bottom: 1px solid #EEF2EF; padding: 48px 0; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24; text-align: center; }
+.stat-icon { color: var(--green); margin-bottom: 10px; }
+.stat-num { font-size: 40px; font-weight: 900; color: var(--green); letter-spacing: -0.03em; }
+.stat-label { font-size: 13px; font-weight: 500; color: var(--text-light); margin-top: 2px; }
+
+/* ═══ SECTION HEADERS ═══ */
+.sh-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 800; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--green); margin-bottom: 10px;
+}
+.sh-title {
+  font-size: clamp(28px, 4vw, 46px); font-weight: 900;
+  color: var(--dark); line-height: 1.15; letter-spacing: -0.02em;
+}
+
+/* ═══ SERVICES CARDS ═══ */
+.svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; }
+.svc-card {
+  background: #fff; border-radius: var(--radius); overflow: hidden;
+  cursor: pointer; border: 1px solid #EEF2EF;
+}
+.svc-card-img { height: 200px; }
+.svc-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.svc-card-body { padding: 26px 28px 30px; }
+.svc-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.svc-icon-box {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--green-muted); display: flex; align-items: center; justify-content: center;
+  color: var(--green); font-size: 18px;
+}
+.svc-card h3 { font-size: 19px; font-weight: 800; color: var(--dark); }
+.svc-card p { font-size: 14px; font-weight: 400; line-height: 1.7; color: var(--text-light); }
+.svc-card-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 13px; font-weight: 700; color: var(--green); }
+
+/* ═══ ABOUT ═══ */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+.about-img-wrap { position: relative; }
+.about-img { border-radius: var(--radius); overflow: hidden; box-shadow: 0 20px 60px rgba(26,80,37,0.1); }
+.about-img img { width: 100%; height: 400px; object-fit: cover; display: block; }
+.about-float {
+  position: absolute; bottom: -24px; right: -24px;
+  width: 150px; height: 150px; border-radius: 18px;
+  overflow: hidden; border: 4px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+.about-float img { width: 100%; height: 100%; object-fit: cover; }
+.about-badge {
+  position: absolute; top: -14px; left: -14px;
+  background: var(--green); color: #fff; border-radius: 14px; padding: 14px 22px;
+  box-shadow: 0 8px 24px rgba(59,177,67,0.3);
+}
+.about-badge-num { font-size: 30px; font-weight: 900; line-height: 1; }
+.about-badge-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+.about-features { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 28px; }
+.about-feat { display: flex; align-items: center; gap: 10px; }
+.about-feat-icon {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: var(--green-muted); display: flex; align-items: center; justify-content: center;
+  color: var(--green); font-size: 16px;
+}
+.about-feat span { font-size: 13px; font-weight: 700; color: var(--dark); }
+
+/* ═══ WHY US ═══ */
+.why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.why-card { background: #fff; border-radius: var(--radius); padding: 34px 26px; text-align: center; border: 1px solid var(--border); }
+.why-icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: linear-gradient(135deg, var(--green-muted), rgba(59,177,67,0.12));
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px; color: var(--green); font-size: 24px;
+}
+.why-card h3 { font-size: 18px; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+.why-card p { font-size: 13px; font-weight: 400; line-height: 1.7; color: var(--text-light); }
+
+/* ═══ SEASONAL ═══ */
+.season-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 44px; }
+.season-tab {
+  border: none; padding: 11px 26px; border-radius: 100px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; gap: 8px;
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1); background: #F0F4F0; color: var(--text-light);
+}
+.season-tab.active { color: #fff; transform: scale(1.05); }
+.season-content {
+  background: var(--bg); border-radius: 24px; padding: 44px 48px;
+  border: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center;
+}
+.season-task {
+  display: flex; align-items: center; gap: 12px; padding: 13px 18px;
+  background: #fff; border-radius: 12px; border: 1px solid var(--border);
+  margin-bottom: 10px; animation: fadeIn 0.35s ease-out both;
+}
+.season-task span { font-size: 14px; font-weight: 600; color: var(--dark); }
+
+/* ═══ TESTIMONIALS ═══ */
+.test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.test-card { background: #fff; border-radius: var(--radius); padding: 32px 28px; border: 1px solid var(--border); position: relative; }
+.test-quote { position: absolute; top: 20px; right: 24px; font-size: 32px; color: rgba(59,177,67,0.08); }
+.test-stars { display: flex; gap: 3px; margin-bottom: 14px; }
+.test-star { color: #F4A261; font-size: 14px; }
+.test-text { font-size: 14px; font-weight: 400; line-height: 1.75; color: #4A5E4D; margin-bottom: 22px; font-style: italic; }
+.test-author { display: flex; align-items: center; gap: 12px; }
+.test-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px;
+}
+.test-name { font-size: 14px; font-weight: 700; color: var(--dark); }
+.test-role { font-size: 12px; font-weight: 400; color: var(--text-light); }
+
+/* ═══ CTA ═══ */
+.cta-section { position: relative; padding: 110px 0; overflow: hidden; }
+.cta-bg {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1510936111840-65e151ad71bb?w=1400&q=80');
+  background-size: cover; background-position: center; filter: brightness(0.2);
+}
+.cta-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(26,80,37,0.85), rgba(59,177,67,0.5)); }
+.cta-inner { position: relative; z-index: 1; text-align: center; max-width: 600px; margin: 0 auto; }
+.cta-inner h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 900; color: #fff; margin-bottom: 14px; line-height: 1.15; }
+.cta-inner p { font-size: 16px; font-weight: 400; color: rgba(255,255,255,0.55); margin-bottom: 36px; }
+
+/* ═══ SERVICES PAGE ═══ */
+.svc-page-header { padding: 156px 0 56px; background: linear-gradient(180deg, var(--green-light), #fff); }
+.svc-item { border-bottom: 1px solid #EEF2EF; padding: 34px 0; cursor: pointer; }
+.svc-item-head { display: flex; justify-content: space-between; align-items: flex-start; }
+.svc-item-left { display: flex; gap: 18px; align-items: center; flex: 1; }
+.svc-item-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: var(--green-muted); display: flex; align-items: center; justify-content: center;
+  color: var(--green); font-size: 22px; transition: all 0.4s; flex-shrink: 0;
+}
+.svc-item-icon.open { background: var(--green); color: #fff; }
+.svc-item h3 { font-size: 24px; font-weight: 800; color: var(--dark); }
+.svc-item p { font-size: 14px; font-weight: 400; color: var(--text-light); margin-top: 4px; max-width: 500px; }
+.svc-item-toggle { transition: transform 0.4s; color: var(--green); font-size: 20px; margin-top: 6px; }
+.svc-expand {
+  max-height: 0; opacity: 0; overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+  margin-left: 66px;
+}
+.svc-expand.open { max-height: 400px; opacity: 1; margin-top: 22px; }
+.svc-expand-inner { display: grid; grid-template-columns: 280px 1fr; gap: 28px; }
+.svc-expand-img { border-radius: 14px; overflow: hidden; height: 160px; }
+.svc-expand-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.svc-features { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.svc-feat-tag {
+  background: var(--green-light); color: var(--green-dark);
+  padding: 7px 16px; border-radius: 100px; font-size: 12px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+
+/* ═══ PRICING ═══ */
+.price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.price-card { background: #fff; border-radius: var(--radius); padding: 34px 28px; text-align: center; border: 1px solid var(--border); }
+.price-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--green); display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; color: #fff; font-size: 22px;
+  box-shadow: 0 6px 20px rgba(59,177,67,0.3);
+}
+.price-card h3 { font-size: 20px; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+.price-card p { font-size: 13px; font-weight: 400; line-height: 1.7; color: var(--text-light); }
+
+/* ═══ GALLERY / BEFORE-AFTER ═══ */
+.ba-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 28px; }
+.ba-card { border-radius: 20px; overflow: hidden; border: 1px solid var(--border); background: #fff; }
+.ba-slider {
+  position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden;
+  cursor: col-resize; user-select: none; -webkit-user-select: none;
+}
+.ba-slider img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.ba-after { z-index: 1; }
+.ba-before-wrap {
+  position: absolute; top: 0; left: 0; width: 50%; height: 100%;
+  overflow: hidden; z-index: 2;
+}
+.ba-before-wrap img { position: absolute; top: 0; left: 0; width: 200%; max-width: none; height: 100%; object-fit: cover; }
+.ba-handle {
+  position: absolute; top: 0; bottom: 0; width: 4px; left: 50%;
+  transform: translateX(-50%); z-index: 3;
+  background: #fff; box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+.ba-handle::before {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #fff; box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  display: flex; align-items: center; justify-content: center;
+}
+.ba-handle-icon {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); z-index: 4;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #fff; box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  display: flex; align-items: center; justify-content: center;
+}
+.ba-handle-icon svg { color: var(--green); }
+.ba-label {
+  position: absolute; top: 14px; padding: 5px 14px;
+  border-radius: 100px; font-size: 11px; font-weight: 800;
+  letter-spacing: 0.08em; text-transform: uppercase; z-index: 5;
+  pointer-events: none; backdrop-filter: blur(6px);
+}
+.ba-label-before { left: 14px; background: rgba(0,0,0,0.5); color: #fff; }
+.ba-label-after { right: 14px; background: rgba(59,177,67,0.85); color: #fff; }
+.ba-info { padding: 20px 24px; }
+.ba-info h3 { font-size: 17px; font-weight: 800; color: var(--dark); margin-bottom: 2px; }
+.ba-info span { font-size: 12px; font-weight: 500; color: var(--text-light); }
+.ba-hint {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 5; background: rgba(0,0,0,0.55); color: #fff;
+  padding: 6px 16px; border-radius: 100px; font-size: 11px; font-weight: 700;
+  pointer-events: none; backdrop-filter: blur(6px);
+  opacity: 1; transition: opacity 0.5s;
+}
+.ba-slider.dragged .ba-hint { opacity: 0; }
+
+/* ═══ LIGHTBOX ═══ */
+.lightbox {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0,0,0,0.92); display: none;
+  align-items: center; justify-content: center;
+  animation: fadeIn 0.25s ease-out;
+}
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 85vw; max-height: 85vh; border-radius: 12px; object-fit: contain; }
+.lightbox-close {
+  position: absolute; top: 20px; right: 20px;
+  background: rgba(255,255,255,0.1); border: none;
+  width: 44px; height: 44px; border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px;
+}
+.lightbox-title { position: absolute; bottom: 28px; text-align: center; width: 100%; font-size: 20px; font-weight: 800; color: #fff; }
+
+/* ═══ CONTACT ═══ */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: 44px; }
+.contact-form {
+  background: #fff; border-radius: 24px; padding: 44px;
+  border: 1px solid var(--border); box-shadow: 0 12px 50px rgba(26,80,37,0.05);
+}
+.contact-form h3 { font-size: 22px; font-weight: 800; color: var(--dark); margin-bottom: 26px; display: flex; align-items: center; gap: 10px; }
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 12px; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.form-label .icon { color: var(--text-light); font-size: 12px; }
+.contact-info h3 { font-size: 24px; font-weight: 800; color: var(--dark); margin-bottom: 28px; }
+.contact-item { display: flex; gap: 16px; margin-bottom: 26px; align-items: flex-start; }
+.contact-item-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: var(--green-muted); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--green); font-size: 18px;
+}
+.contact-item-label { font-size: 11px; font-weight: 800; color: var(--text-light); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
+.contact-item-value { font-size: 15px; font-weight: 500; color: var(--dark); line-height: 1.6; }
+.contact-map {
+  margin-top: 32px; border-radius: 18px; height: 190px;
+  background: linear-gradient(135deg, var(--green-light), #D4E5D6);
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid #DDE5DE; flex-direction: column; gap: 8px;
+  color: var(--text-light); font-size: 13px; font-weight: 500;
+}
+.form-success { text-align: center; padding: 44px 0; }
+.form-success-icon {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: var(--green); display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px; box-shadow: 0 8px 24px rgba(59,177,67,0.4);
+  color: #fff; font-size: 30px;
+}
+
+/* ═══ FOOTER ═══ */
+footer { background: #0F1F14; padding: 64px 0 32px; }
+.footer-grid { display: grid; grid-template-columns: 2.5fr 1fr 1fr 1.5fr; gap: 40px; margin-bottom: 48px; }
+.footer-logo { font-size: 24px; font-weight: 900; margin-bottom: 14px; }
+.footer-desc { font-size: 13px; font-weight: 400; line-height: 1.8; color: rgba(255,255,255,0.35); max-width: 280px; }
+.footer-heading { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.2); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; }
+.footer-link { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.45); cursor: pointer; margin-bottom: 10px; transition: color 0.3s; }
+.footer-link:hover { color: #fff; }
+.footer-contact { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.45); line-height: 2.4; }
+.footer-contact-item { display: flex; align-items: center; gap: 8px; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.06); padding-top: 22px;
+  font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.2);
+}
+
+/* ═══ SECTIONS ═══ */
+.section { padding: 96px 0; }
+.section-alt { background: var(--bg); }
+.section-gray { background: #F2F7F2; }
+.section-page-header { padding: 156px 0 56px; background: linear-gradient(180deg, var(--green-light), #fff); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 1024px) {
+  .about-grid, .contact-grid, .season-content, .svc-expand-inner { grid-template-columns: 1fr; }
+  .stats-grid, .why-grid { grid-template-columns: repeat(2, 1fr); }
+  .test-grid, .price-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .about-float { display: none; }
+  .about-badge { top: 10px; left: 10px; }
+  .svc-expand-inner { grid-template-columns: 1fr; }
+  .svc-expand-img { height: 180px; }
+}
+@media (max-width: 640px) {
+  .wrap { padding: 0 20px; }
+  .stats-grid, .why-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 36px; }
+  .hero-btns { flex-direction: column; }
+  .nav-link { display: none; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .gal-grid, .svc-grid, .ba-grid { grid-template-columns: 1fr; }
+  .season-tabs { flex-wrap: wrap; }
+  .season-content { padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<!-- Navigation -->
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" onclick="goTo('home')">
+      <span class="logo-text"><span class="logo-green">Green</span><span class="logo-gray">straw</span></span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link active" data-page="home" onclick="goTo('home')">Úvod</a>
+      <a class="nav-link" data-page="services" onclick="goTo('services')">Služby</a>
+      <a class="nav-link" data-page="gallery" onclick="goTo('gallery')">Galerie</a>
+      <a class="nav-link" data-page="contact" onclick="goTo('contact')">Kontakt</a>
+      <button class="btn btn-primary nav-cta" onclick="goTo('contact')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Konzultace zdarma
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════ HOME PAGE ═══════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-circle anim-float" style="width:140px;height:140px;top:12%;right:10%"></div>
+    <div class="hero-circle anim-float2" style="width:90px;height:90px;bottom:18%;left:6%"></div>
+    <svg class="anim-spin" style="position:absolute;top:25%;right:22%;opacity:0.04" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L2 21 3.56 18.39C3.56 18.39 5.19 16.18 6.45 14.78C7.71 13.38 10 11 12 10L17 8Z"/><path d="M17 8L20 2L22 4.5L17 8Z"/></svg>
+
+    <div class="wrap">
+      <div class="hero-content">
+        <div class="reveal d1">
+          <div class="hero-badge">
+            <span class="hero-badge-dot anim-pulse"></span>
+            <span>Přijímáme nové projekty 2026</span>
+          </div>
+        </div>
+        <div class="reveal d2">
+          <h1>Tvoříme zahrady,<br><span>které žijí.</span></h1>
+        </div>
+        <div class="reveal d3">
+          <p>Od prvního návrhu po poslední zasazený strom. Profesionální zahradnické služby, zemní práce a péče o veřejnou zeleň s&nbsp;vášní pro detail.</p>
+        </div>
+        <div class="reveal d4 hero-btns">
+          <button class="btn btn-white" onclick="goTo('services')">Naše služby <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <button class="btn btn-ghost" onclick="goTo('gallery')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Galerie realizací</button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <svg class="anim-float" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div class="wrap stats-grid">
+      <div class="reveal d1"><div>
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div class="stat-num" data-count="15" data-suffix="+">0+</div>
+        <div class="stat-label">Let zkušeností</div>
+      </div></div>
+      <div class="reveal d2"><div>
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div class="stat-num" data-count="500" data-suffix="+">0+</div>
+        <div class="stat-label">Dokončených projektů</div>
+      </div></div>
+      <div class="reveal d3"><div>
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="stat-num" data-count="120" data-suffix="+">0+</div>
+        <div class="stat-label">Spokojených klientů</div>
+      </div></div>
+      <div class="reveal d4"><div>
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+        <div class="stat-num" data-count="100" data-suffix="%">0%</div>
+        <div class="stat-label">Nasazení</div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- Services Preview -->
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="reveal" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:52px">
+        <div>
+          <div class="sh-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L2 21 3.56 18.39C3.56 18.39 5.19 16.18 6.45 14.78C7.71 13.38 10 11 12 10L17 8Z"/><path d="M17 8L20 2L22 4.5L17 8Z"/></svg> Co děláme</div>
+          <h2 class="sh-title">Kompletní péče o vaši zeleň</h2>
+        </div>
+        <button class="btn btn-outline" style="padding:10px 24px;font-size:13px" onclick="goTo('services')">Všechny služby <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="svc-grid" id="home-services"></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" style="background:#fff">
+    <div class="wrap about-grid">
+      <div class="reveal-l">
+        <div class="about-img-wrap">
+          <div class="about-img img-zoom"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80" alt="Tým"></div>
+          <div class="about-float anim-float"><img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80" alt=""></div>
+          <div class="about-badge"><div class="about-badge-num">15+</div><div class="about-badge-label">Let praxe</div></div>
+        </div>
+      </div>
+      <div class="reveal-r d1">
+        <div class="sh-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg> O nás</div>
+        <h2 class="sh-title" style="margin:8px 0 18px">Rodinná firma s&nbsp;profesionálním přístupem</h2>
+        <p style="font-size:15px;font-weight:400;line-height:1.85;color:var(--text-light);margin-bottom:14px">Jsme zahradnická firma s dlouholetou praxí. Postupně jsme investovali do profesionálního vybavení, sledujeme moderní postupy a zakládáme si na férovém jednání a spolehlivosti.</p>
+        <p style="font-size:15px;font-weight:400;line-height:1.85;color:var(--text-light);margin-bottom:28px">Dnes se staráme o soukromé zahrady, firemní areály, městskou zeleň i veřejná prostranství po celé ČR.</p>
+        <div class="about-features">
+          <div class="about-feat"><div class="about-feat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div><span>Férové jednání</span></div>
+          <div class="about-feat"><div class="about-feat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><span>Certifikovaní odborníci</span></div>
+          <div class="about-feat"><div class="about-feat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></div><span>Garance kvality</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Us -->
+  <section class="section section-gray">
+    <div class="wrap">
+      <div class="reveal" style="text-align:center;margin-bottom:52px">
+        <div class="sh-tag" style="justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Proč my</div>
+        <h2 class="sh-title">Proč svěřit zahradu profesionálům?</h2>
+      </div>
+      <div class="why-grid" id="why-grid"></div>
+    </div>
+  </section>
+
+  <!-- Seasonal -->
+  <section class="section" style="background:#fff">
+    <div class="wrap">
+      <div class="reveal" style="text-align:center;margin-bottom:52px">
+        <div class="sh-tag" style="justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> Celoroční péče</div>
+        <h2 class="sh-title">Údržba zahrady — přehled</h2>
+      </div>
+      <div class="reveal">
+        <div class="season-tabs" id="season-tabs"></div>
+        <div id="season-content"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="reveal" style="text-align:center;margin-bottom:52px">
+        <div class="sh-tag" style="justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg> Reference</div>
+        <h2 class="sh-title">Co o nás říkají klienti</h2>
+      </div>
+      <div class="test-grid" id="test-grid"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-bg"></div>
+    <div class="cta-overlay"></div>
+    <div class="wrap">
+      <div class="cta-inner reveal">
+        <svg class="anim-spin" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" style="margin-bottom:20px"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L2 21 3.56 18.39C3.56 18.39 5.19 16.18 6.45 14.78C7.71 13.38 10 11 12 10L17 8Z"/><path d="M17 8L20 2L22 4.5L17 8Z"/></svg>
+        <h2>Svěřte svou zahradu profesionálům</h2>
+        <p>Ať už potřebujete realizaci, údržbu nebo zemní práce — první konzultace je&nbsp;zdarma.</p>
+        <button class="btn btn-white" onclick="goTo('contact')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Získat nezávaznou nabídku</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════ SERVICES PAGE ═══════════════ -->
+<div id="page-services" class="page">
+  <section class="svc-page-header">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="sh-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L2 21 3.56 18.39C3.56 18.39 5.19 16.18 6.45 14.78C7.71 13.38 10 11 12 10L17 8Z"/><path d="M17 8L20 2L22 4.5L17 8Z"/></svg> Služby</div>
+        <h1 class="sh-title" style="font-size:clamp(34px,5vw,56px);margin-bottom:16px">Od myšlenky k&nbsp;hotové zeleni</h1>
+        <p style="font-size:17px;font-weight:400;line-height:1.8;color:var(--text-light);max-width:560px">Kompletní portfolio zahradnických a krajinářských služeb pro soukromé i veřejné projekty.</p>
+      </div>
+    </div>
+  </section>
+  <section style="padding:36px 0 80px">
+    <div class="wrap" id="svc-list"></div>
+  </section>
+  <section class="section section-gray">
+    <div class="wrap">
+      <div class="reveal" style="text-align:center;margin-bottom:52px">
+        <div class="sh-tag" style="justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 9.5h20"/></svg> Ceny</div>
+        <h2 class="sh-title">Férové ceny bez skrytých poplatků</h2>
+      </div>
+      <div class="price-grid" id="price-grid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════ GALLERY PAGE ═══════════════ -->
+<div id="page-gallery" class="page">
+  <section class="svc-page-header">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="sh-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Galerie</div>
+        <h1 class="sh-title" style="font-size:clamp(34px,5vw,56px);margin-bottom:16px">Naše realizace</h1>
+        <p style="font-size:17px;font-weight:400;color:var(--text-light);max-width:480px">Ukázky projektů, na které jsme pyšní.</p>
+      </div>
+    </div>
+  </section>
+  <section style="padding:0 0 96px">
+    <div class="wrap">
+      <div class="reveal" style="margin-bottom:36px;padding:16px 0 36px;border-bottom:1px solid #EEF2EF">
+        <p style="font-size:14px;font-weight:600;color:var(--text-light);display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> Přetáhněte posuvník a odkryjte proměnu</p>
+      </div>
+      <div class="ba-grid" id="ba-grid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════ CONTACT PAGE ═══════════════ -->
+<div id="page-contact" class="page">
+  <section class="svc-page-header" style="padding-bottom:96px">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="sh-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Kontakt</div>
+        <h1 class="sh-title" style="font-size:clamp(34px,5vw,56px);margin-bottom:16px">Napište nám</h1>
+      </div>
+      <div class="contact-grid">
+        <div class="reveal-l">
+          <div class="contact-form" id="contact-form">
+            <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Poptávkový formulář</h3>
+            <div class="form-group"><label class="form-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Jméno a příjmení</label><input type="text" class="gs-input" placeholder="Jan Novák"></div>
+            <div class="form-group"><label class="form-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> E-mail</label><input type="email" class="gs-input" placeholder="jan@email.cz"></div>
+            <div class="form-group"><label class="form-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Telefon</label><input type="tel" class="gs-input" placeholder="+420 ..."></div>
+            <div class="form-group"><label class="form-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Vaše poptávka</label><textarea class="gs-input" placeholder="Popište váš projekt..."></textarea></div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitForm()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Odeslat poptávku</button>
+          </div>
+        </div>
+        <div class="reveal-r d1">
+          <div class="contact-info">
+            <h3>Kontaktní údaje</h3>
+            <div class="contact-item"><div class="contact-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="contact-item-label">Adresa</div><div class="contact-item-value">GreenStraw s.r.o.<br>Česká republika</div></div></div>
+            <div class="contact-item"><div class="contact-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="contact-item-label">Telefon</div><div class="contact-item-value">+420 XXX XXX XXX</div></div></div>
+            <div class="contact-item"><div class="contact-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="contact-item-label">E-mail</div><div class="contact-item-value">info@greenstraw.cz</div></div></div>
+            <div class="contact-item"><div class="contact-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="contact-item-label">Pracovní doba</div><div class="contact-item-value">Po – Pá: 8:00 – 17:00</div></div></div>
+            <div class="contact-map"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Mapa — doplníme dle adresy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <img id="lb-img" src="" alt="" onclick="event.stopPropagation()">
+  <div class="lightbox-title" id="lb-title"></div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><span style="color:var(--green)">Green</span><span style="color:#888">straw</span></div>
+        <p class="footer-desc">Profesionální správa zeleně, realizace zahrad a zemní práce pro soukromé osoby, firmy i města.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigace</div>
+        <div class="footer-link" onclick="goTo('home')">Úvod</div>
+        <div class="footer-link" onclick="goTo('services')">Služby</div>
+        <div class="footer-link" onclick="goTo('gallery')">Galerie</div>
+        <div class="footer-link" onclick="goTo('contact')">Kontakt</div>
+      </div>
+      <div>
+        <div class="footer-heading">Služby</div>
+        <div class="footer-link" onclick="goTo('services')">Návrhy & realizace</div>
+        <div class="footer-link" onclick="goTo('services')">Zemní práce</div>
+        <div class="footer-link" onclick="goTo('services')">Pro firmy</div>
+        <div class="footer-link" onclick="goTo('services')">Pro města</div>
+        <div class="footer-link" onclick="goTo('services')">Veřejné služby</div>
+      </div>
+      <div>
+        <div class="footer-heading">Kontakt</div>
+        <div class="footer-contact">
+          <div class="footer-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@greenstraw.cz</div>
+          <div class="footer-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/></svg> +420 XXX XXX XXX</div>
+          <div class="footer-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Po – Pá: 8:00 – 17:00</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 GreenStraw s.r.o. Všechna práva vyhrazena.</div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════ DATA ═══════════════ */
+const SERVICES = [
+  { id:"zahrady", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>', title:"Návrhy & realizace zahrad", desc:"Navrhneme a vybudujeme zahradu vašich snů — od prvního náčrtu až po finální realizaci.", features:["3D vizualizace","Výsadba zeleně","Terénní úpravy","Osvětlení","Závlahy"], img:"https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=600&q=80" },
+  { id:"zemni", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22v-5l5-5 5 5-5 5z"/><path d="M9.5 14.5 16 8"/><path d="m17 2 5 5-.5.5a3.53 3.53 0 0 1-5 0s0 0 0 0a3.53 3.53 0 0 1 0-5L17 2z"/></svg>', title:"Zemní práce", desc:"Profesionální zemní práce s moderní technikou. Příprava terénu, výkopy, modelace krajiny.", features:["Výkopové práce","Modelace terénu","Odvoz zeminy","Příprava pozemku","Drenáže"], img:"https://images.unsplash.com/photo-1564429238961-bf8b8d446543?w=600&q=80" },
+  { id:"firmy", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>', title:"Pro firmy", desc:"Reprezentativní zeleň pro firemní prostory. Kompletní návrhy, realizace a celoroční údržba.", features:["Firemní zahrady","Údržba zeleně","Sezónní výsadba","Pravidelný servis"], img:"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80" },
+  { id:"mesta", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>', title:"Pro města & obce", desc:"Spolupracujeme s městy na tvorbě veřejné zeleně, parků a odpočinkových zón.", features:["Veřejné parky","Městská zeleň","Revitalizace","Generely zeleně"], img:"https://images.unsplash.com/photo-1577495508048-b635879837f1?w=600&q=80" },
+  { id:"verejne", icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 10v.2A3 3 0 0 1 8.9 16v0H5v0h0a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M16 14v.2A3 3 0 0 1 14.9 20v0H19v0h0a3 3 0 0 1-1-5.8V14a3 3 0 0 1 6 0z"/><path d="M19 20v3"/></svg>', title:"Veřejné služby", desc:"Celoroční údržba veřejných prostranství — sekání, prořezy, zimní údržba a kompletní péče.", features:["Údržba parků","Ořezy stromů","Zimní údržba","Poradenství"], img:"https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?w=600&q=80" },
+];
+
+const SEASONS = [
+  { key:"jaro", label:"Jaro", sub:"Únor – Květen", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>', color:"#3BB143", tasks:["Hrabání listí a úklid po zimě","Řez ovocných a okrasných stromů","Vertikutace a hnojení trávníku","Spuštění závlahového systému","Příprava půdy a výsadba"] },
+  { key:"leto", label:"Léto", sub:"Červen – Srpen", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/></svg>', color:"#F4A261", tasks:["Pravidelné sečení trávníku","Aerifikace a pískování","Mulčování záhonů","Hnojení a zavlažování","Péče o květinové záhony"] },
+  { key:"podzim", label:"Podzim", sub:"Září – Listopad", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L2 21 3.56 18.39C3.56 18.39 5.19 16.18 6.45 14.78C7.71 13.38 10 11 12 10L17 8Z"/><path d="M17 8L20 2L22 4.5L17 8Z"/></svg>', color:"#E76F51", tasks:["Výsadba stromů a keřů","Výchovný řez dřevin","Úklid spadaného listí","Podzimní hnojení trávníku","Zazimování závlah"] },
+  { key:"zima", label:"Zima", sub:"Prosinec – Leden", icon:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="20" y1="16" x2="4" y2="8"/><line x1="20" y1="8" x2="4" y2="16"/></svg>', color:"#90BCE0", tasks:["Rizikové kácení stromů","Kontrola ochrany rostlin","Údržba zahradní techniky","Plánování další sezóny","Konzultace nových projektů"] },
+];
+
+const GALLERY = [
+  { id:1, title:"Údržba zahrady", desc:"Sekání, úklid, cestičky", before:"images/1-before.png", after:"images/1-after.png" },
+  { id:2, title:"Opěrná zeď & terén", desc:"Zemní práce, dlažba", before:"images/2-before.png", after:"images/2-after.png" },
+  { id:3, title:"Městská výsadba", desc:"Mulčování, keře", before:"images/3-before.png", after:"images/3-after.png" },
+  { id:4, title:"Úklid pozemku", desc:"Zimní údržba, prořez", before:"images/4-before.png", after:"images/4-after.png" },
+  { id:5, title:"Firemní zeleň", desc:"Okrasné trávy, keře", before:"images/5-before.png", after:"images/5-after.png" },
+  { id:6, title:"Revitalizace zahrady", desc:"Demolice, příprava terénu", before:"images/6-before.png", after:"images/6-after.png" },
+  { id:7, title:"Zahradní design", desc:"Výsadba, kameny, mulč", before:"images/7-before.png", after:"images/7-after.png" },
+  { id:8, title:"Veřejná zeleň", desc:"Údržba prostranství", before:"images/8-before.png", after:"images/8-after.png" },
+  { id:9, title:"Živý plot & trávník", desc:"Thuje, bazén, údržba", before:"images/9-before.png", after:"images/9-after.png" },
+  { id:10, title:"Kácení stromu", desc:"Rizikové kácení, úklid dřeva", before:"images/10-before.png", after:"images/10-after.png" },
+  { id:11, title:"Záhon u plotu", desc:"Trávník → štěrk + výsadba", before:"images/11-before.png", after:"images/11-after.png" },
+  { id:12, title:"Předzahrádka", desc:"Okrasné trávy, řez, úprava", before:"images/12-before.png", after:"images/12-after.png" },
+];
+
+const TESTIMONIALS = [
+  { name:"Petr Horák", role:"Rodinný dům, Praha", text:"S firmou GreenStraw jsme velice spokojení. Od návrhu po realizaci vše proběhlo naprosto profesionálně. Zahrada je přesně taková, jakou jsme si přáli." },
+  { name:"Městský úřad Říčany", role:"Revitalizace parku", text:"Spolehlivost, kvalita a dodržení termínů. Spolupráce s GreenStraw předčila naše očekávání. Doporučujeme pro veřejné projekty." },
+  { name:"Jana Malá", role:"SVJ, Brno", text:"Konečně máme kolem domu zeleň, která vypadá skvěle celoročně. Pravidelná údržba je bezchybná, komunikace perfektní." },
+];
+
+const WHY_US = [
+  { icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>', title:"Úspora času", desc:"Nestarejte se o údržbu. My se postaráme a vy si zahradu jen užívejte." },
+  { icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>', title:"Správné načasování", desc:"Víme přesně, kdy řezat, hnojit nebo vysazovat pro zdraví zahrady." },
+  { icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>', title:"Profesionální technika", desc:"Špičkové vybavení a materiál výhradně od prověřených dodavatelů." },
+  { icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>', title:"Prevence chyb", desc:"Odborný návrh zabrání nevhodnému rozmístění a ušetří zbytečné náklady." },
+];
+
+const PRICING = [
+  { icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>', title:"Bezplatná prohlídka", desc:"Nezávazná návštěva na místě. Projdeme rozsah prací. Zdarma." },
+  { icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>', title:"Pevná cena za dílo", desc:"Náš rozpočet je konečný a závazný. Žádné vícepráce." },
+  { icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>', title:"Žádná hodinová sazba", desc:"Cena závisí na náročnosti projektu, ne na hodinách." },
+];
+
+/* ═══════════════ NAVIGATION ═══════════════ */
+let currentPage = 'home';
+
+function goTo(page) {
+  currentPage = page;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.page === page);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(initReveals, 100);
+}
+
+/* ═══════════════ SCROLL ═══════════════ */
+window.addEventListener('scroll', () => {
+  const st = document.documentElement.scrollTop;
+  const sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  document.getElementById('scroll-progress').style.width = (sh > 0 ? (st / sh) * 100 : 0) + '%';
+  document.getElementById('nav').classList.toggle('scrolled', st > 50);
+});
+
+/* ═══════════════ REVEAL ON SCROLL ═══════════════ */
+function initReveals() {
+  document.querySelectorAll('.reveal:not(.vis),.reveal-l:not(.vis),.reveal-r:not(.vis),.reveal-s:not(.vis)').forEach(el => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { el.classList.add('vis'); obs.unobserve(el); }
+    }, { threshold: 0.1 });
+    obs.observe(el);
+  });
+}
+
+/* ═══════════════ COUNTERS ═══════════════ */
+function initCounters() {
+  document.querySelectorAll('.stat-num[data-count]').forEach(el => {
+    const end = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    let started = false;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !started) {
+        started = true;
+        const t0 = performance.now();
+        const go = ts => {
+          const p = Math.min((ts - t0) / 1800, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.floor(eased * end) + suffix;
+          if (p < 1) requestAnimationFrame(go);
+        };
+        requestAnimationFrame(go);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(el);
+  });
+}
+
+/* ═══════════════ RENDER DYNAMIC CONTENT ═══════════════ */
+function renderHomeServices() {
+  const el = document.getElementById('home-services');
+  el.innerHTML = SERVICES.slice(0, 3).map((s, i) => `
+    <div class="reveal d${i+1}">
+      <div class="svc-card lift" onclick="goTo('services')">
+        <div class="svc-card-img img-zoom"><img src="${s.img}" alt="${s.title}"></div>
+        <div class="svc-card-body">
+          <div class="svc-card-head">
+            <div class="svc-icon-box">${s.icon}</div>
+            <h3>${s.title}</h3>
+          </div>
+          <p>${s.desc}</p>
+          <div class="svc-card-link">Zjistit více <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderWhyUs() {
+  document.getElementById('why-grid').innerHTML = WHY_US.map((w, i) => `
+    <div class="reveal d${i+1}">
+      <div class="why-card lift">
+        <div class="why-icon">${w.icon}</div>
+        <h3>${w.title}</h3>
+        <p>${w.desc}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+let activeSeason = 'jaro';
+function renderSeasons() {
+  const tabs = document.getElementById('season-tabs');
+  tabs.innerHTML = SEASONS.map(s => `
+    <button class="season-tab ${s.key === activeSeason ? 'active' : ''}" data-season="${s.key}" onclick="setSeason('${s.key}')" style="${s.key === activeSeason ? 'background:'+s.color+';box-shadow:0 6px 20px '+s.color+'40' : ''}">
+      ${s.icon} ${s.label}
+    </button>
+  `).join('');
+  const s = SEASONS.find(x => x.key === activeSeason);
+  document.getElementById('season-content').innerHTML = `
+    <div class="season-content">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:8px;background:${s.color}15;border-radius:10px;padding:6px 14px;margin-bottom:14px">
+          <span style="color:${s.color}">${s.icon}</span>
+          <span style="font-size:13px;font-weight:700;color:${s.color}">${s.sub}</span>
+        </div>
+        <h3 style="font-size:32px;font-weight:900;color:var(--dark);margin-bottom:8px">${s.label}ní údržba</h3>
+        <p style="font-size:14px;font-weight:400;color:var(--text-light);line-height:1.7">Správné načasování je klíčem k&nbsp;dlouhodobě krásné a zdravé zahradě.</p>
+      </div>
+      <div>
+        ${s.tasks.map((t, i) => `
+          <div class="season-task" style="animation-delay:${i * 0.07}s">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="${s.color}" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>${t}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+function setSeason(key) { activeSeason = key; renderSeasons(); }
+
+function renderTestimonials() {
+  document.getElementById('test-grid').innerHTML = TESTIMONIALS.map((t, i) => `
+    <div class="reveal d${i+1}">
+      <div class="test-card lift">
+        <div class="test-quote"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21z"/></svg></div>
+        <div class="test-stars">${'<svg class="test-star" width="14" height="14" viewBox="0 0 24 24" fill="#F4A261" stroke="#F4A261" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'.repeat(5)}</div>
+        <p class="test-text">„${t.text}"</p>
+        <div class="test-author">
+          <div class="test-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div><div class="test-name">${t.name}</div><div class="test-role">${t.role}</div></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderServicesList() {
+  document.getElementById('svc-list').innerHTML = SERVICES.map((s, i) => `
+    <div class="reveal d${Math.min(i+1,5)}">
+      <div class="svc-item" onclick="toggleService('${s.id}')">
+        <div class="svc-item-head">
+          <div class="svc-item-left">
+            <div class="svc-item-icon" id="svc-icon-${s.id}">${s.icon}</div>
+            <div>
+              <h3>${s.title}</h3>
+              <p>${s.desc}</p>
+            </div>
+          </div>
+          <div class="svc-item-toggle" id="svc-toggle-${s.id}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="svc-expand" id="svc-expand-${s.id}">
+          <div class="svc-expand-inner">
+            <div class="svc-expand-img img-zoom"><img src="${s.img}" alt="${s.title}"></div>
+            <div>
+              <div class="svc-features">${s.features.map(f => `<span class="svc-feat-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>${f}</span>`).join('')}</div>
+              <button class="btn btn-primary" style="padding:10px 24px;font-size:13px" onclick="event.stopPropagation();goTo('contact')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Poptat službu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+let openService = null;
+function toggleService(id) {
+  if (openService && openService !== id) {
+    document.getElementById('svc-expand-' + openService).classList.remove('open');
+    document.getElementById('svc-icon-' + openService).classList.remove('open');
+    document.getElementById('svc-toggle-' + openService).style.transform = 'rotate(0)';
+  }
+  const isOpen = openService === id;
+  openService = isOpen ? null : id;
+  document.getElementById('svc-expand-' + id).classList.toggle('open', !isOpen);
+  document.getElementById('svc-icon-' + id).classList.toggle('open', !isOpen);
+  document.getElementById('svc-toggle-' + id).style.transform = isOpen ? 'rotate(0)' : 'rotate(45deg)';
+}
+
+function renderPricing() {
+  document.getElementById('price-grid').innerHTML = PRICING.map((p, i) => `
+    <div class="reveal d${i+1}">
+      <div class="price-card lift">
+        <div class="price-icon">${p.icon}</div>
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════ GALLERY (BEFORE / AFTER) ═══════════════ */
+
+function renderGallery() {
+  document.getElementById('ba-grid').innerHTML = GALLERY.map((g, i) => `
+    <div class="reveal-s d${Math.min(i+1,5)}">
+      <div class="ba-card lift">
+        <div class="ba-slider" id="ba-${g.id}" data-id="${g.id}">
+          <img class="ba-after" src="${g.after}" alt="Po">
+          <div class="ba-before-wrap"><img src="${g.before}" alt="Před"></div>
+          <div class="ba-handle"></div>
+          <div class="ba-handle-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 8 4 4-4 4"/><path d="m6 8-4 4 4 4"/></svg></div>
+          <div class="ba-label ba-label-before">Před</div>
+          <div class="ba-label ba-label-after">Po</div>
+          <div class="ba-hint">← Přetáhněte →</div>
+        </div>
+        <div class="ba-info">
+          <h3>${g.title}</h3>
+          <span>${g.desc}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  setTimeout(() => { initReveals(); initSliders(); }, 50);
+}
+
+function initSliders() {
+  document.querySelectorAll('.ba-slider').forEach(slider => {
+    let dragging = false;
+    const wrap = slider.querySelector('.ba-before-wrap');
+    const handle = slider.querySelector('.ba-handle');
+    const icon = slider.querySelector('.ba-handle-icon');
+
+    function setPos(x) {
+      const rect = slider.getBoundingClientRect();
+      let pct = ((x - rect.left) / rect.width) * 100;
+      pct = Math.max(2, Math.min(98, pct));
+      wrap.style.width = pct + '%';
+      handle.style.left = pct + '%';
+      icon.style.left = pct + '%';
+      slider.classList.add('dragged');
+    }
+
+    slider.addEventListener('mousedown', e => { dragging = true; setPos(e.clientX); e.preventDefault(); });
+    document.addEventListener('mousemove', e => { if (dragging) setPos(e.clientX); });
+    document.addEventListener('mouseup', () => { dragging = false; });
+    slider.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, {passive:true});
+    document.addEventListener('touchmove', e => { if (dragging) setPos(e.touches[0].clientX); }, {passive:true});
+    document.addEventListener('touchend', () => { dragging = false; });
+  });
+}
+
+function openLightbox(img, title) {
+  document.getElementById('lb-img').src = img;
+  document.getElementById('lb-title').textContent = title;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ═══════════════ CONTACT FORM ═══════════════ */
+function submitForm() {
+  document.getElementById('contact-form').innerHTML = `
+    <div class="form-success">
+      <div class="form-success-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h3 style="font-size:26px;font-weight:900;color:var(--green);margin-bottom:8px">Děkujeme!</h3>
+      <p style="font-size:15px;font-weight:400;color:var(--text-light)">Ozveme se vám co nejdříve.</p>
+    </div>
+  `;
+}
+
+/* ═══════════════ INIT ═══════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderHomeServices();
+  renderWhyUs();
+  renderSeasons();
+  renderTestimonials();
+  renderServicesList();
+  renderPricing();
+  renderGallery();
+  initReveals();
+  initCounters();
+});
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>
