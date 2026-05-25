@@ -854,6 +854,10 @@ function goTo(page) {
   document.querySelectorAll('.nav-link').forEach(l => {
     l.classList.toggle('active', l.dataset.page === page);
   });
+  // Non-home pages always get solid nav
+  if (page !== 'home') {
+    document.getElementById('nav').classList.add('scrolled');
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
   setTimeout(initReveals, 100);
 }
@@ -863,7 +867,8 @@ window.addEventListener('scroll', () => {
   const st = document.documentElement.scrollTop;
   const sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
   document.getElementById('scroll-progress').style.width = (sh > 0 ? (st / sh) * 100 : 0) + '%';
-  document.getElementById('nav').classList.toggle('scrolled', st > 50);
+  // Home: transparent until scroll; other pages: always solid
+  document.getElementById('nav').classList.toggle('scrolled', currentPage !== 'home' || st > 50);
 });
 
 /* ═══════════════ REVEAL ON SCROLL ═══════════════ */
